@@ -1,19 +1,13 @@
-datasets:
-    - name: weather_AUS
-      file_name: weatherAUS.csv
-      input_files:
-        input_file_name: weatherAUS.csv
-        input_file_cols:
-            - 'date'
-            - 'transaction_amount'
-            - 'merchant'
-            - 'file_name'
-    - name: titanic_train
-      file_name: titanic_train.csv
-      input_files:
-        input_file_name: titanic_train.csv
-        input_file_cols:
-            - 'date'
-            - 'transaction_amount'
-            - 'merchant'
-            - 'file_name'
+breast_cancer_data:
+  name: breast_cancer_data
+  input_file:
+    name: breast-cancer-wisconsin-data.csv
+    drop_cols:
+      - 'Unnamed: 32'
+    drop_nulls:
+      - diagnosis
+  target: diagnosis
+  models:
+    - LogisticRegression
+    # - SVC
+    # - GaussianNB
