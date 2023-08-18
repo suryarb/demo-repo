@@ -9,5 +9,5 @@ breast_cancer_data:
   target: diagnosis
   models:
     - LogisticRegression
-    # - SVC
-    # - GaussianNB
+    - SVC
+    - GaussianNB

@@ -3,10 +3,17 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 import utils
 import argparse
+import logging
+
+logging.basicConfig(level=logging.DEBUG,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
+
+logger = logging.getLogger(__name__)
 
 def clean_data(df, dataset, config):
     
-    print(f'cleaning data...')
+    logger.debug('cleaning data...')
+
     if config[dataset]['input_file']['drop_cols'] is not None:
         df.drop(columns=config[dataset]['input_file']['drop_cols'], inplace=True)
         
@@ -49,4 +56,4 @@ if __name__ == "__main__":
     
     prepare(args.dataset, args.model)
     
-    print("data preparation completed...")
+    logger.debug('data preparation completed...')

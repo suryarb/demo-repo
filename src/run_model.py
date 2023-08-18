@@ -2,6 +2,13 @@ import prepare_data
 import train
 import utils
 
+import logging
+
+logging.basicConfig(level=logging.DEBUG,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
+
+logger = logging.getLogger(__name__)
+
 if __name__ == "__main__":
     
     config = utils.load_config()
@@ -10,9 +17,9 @@ if __name__ == "__main__":
         
         for model in config[dataset]['models']:
             
-            print(f'preparing {dataset} to train with {model}...')
+            logger.debug(f'preparing {dataset} to train with {model}...')
             
             prepare_data.prepare(dataset, model)
             train.train_and_predict(dataset, model)
     
-    print("training complete...")
+            logger.debug(f'training complete...')
