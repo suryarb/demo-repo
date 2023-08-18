@@ -23,23 +23,21 @@ def load_config():
     else:
         return print("The config.yml file does not exist.")
 
-def load_data(file_name):
-        
-    logger.debug(f'loading dataset {file_name}...')
-    df = pd.read_csv(f'/workspaces/iod-demo-repo/DATA/{file_name}', index_col='id')
+def load_data(ds_config):
+    
+    logger.debug(f"loading dataset {ds_config['input_file']['name']}...")
+    df = pd.read_csv(f"{ds_config['input_file']['path']}/{ds_config['input_file']['name']}", index_col='id')
 
     return df
 
-def split_train_test_data(df, config):
-       
-    for d in config:
+def split_train_test_data(df, ds_config):
 
-        logger.debug(f'splitting train and test...')
-        
-        target_col = config[d]['target']
-        feature_cols = [c for c in df.columns if c != target_col]
-        
-        X =  df[feature_cols]
-        y = df[target_col]
+    logger.debug(f'splitting train and test...')
+    
+    target_col = ds_config['target']
+    feature_cols = [c for c in df.columns if c != target_col]
+    
+    X =  df[feature_cols]
+    y = df[target_col]
    
     return train_test_split(X, y, random_state=1)

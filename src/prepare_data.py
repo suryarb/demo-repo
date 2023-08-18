@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-from sklearn.model_selection import train_test_split
 import utils
 import argparse
 import logging
@@ -10,50 +9,46 @@ logging.basicConfig(level=logging.DEBUG,
 
 logger = logging.getLogger(__name__)
 
-def clean_data(df, dataset, config):
+def clean_data(df, ds_config):
     
     logger.debug('cleaning data...')
 
-    if config.get(dataset, {}).get('input_file', {}).get('drop_cols') is not None:
-        df.drop(columns=config[dataset]['input_file']['drop_cols'], inplace=True)
+    if ds_config.get('input_file', {}).get('drop_cols') is not None:
+        df.drop(columns=ds_config['input_file']['drop_cols'], inplace=True)
 
-    if config.get(dataset, {}).get('input_file', {}).get('drop_nulls') is not None:
-        df.dropna(subset=config[dataset]['input_file']['drop_nulls'], inplace=True)
+    if ds_config.get('input_file', {}).get('drop_nulls') is not None:
+        df.dropna(subset=ds_config['input_file']['drop_nulls'], inplace=True)
 
     return df
 
-def transform_target(df, dataset, config):
+def transform_target(df, ds_config):
     
     bm_map = {
         'B': 0,
         'M': 1
         }
     
-    df[config[dataset]['target']] = df[config[dataset]['target']].map(bm_map)
+    df[ds_config['target']] = df[ds_config['target']].map(bm_map)
 
     return df
 
-def prepare(dataset, model):
+def prepare(model, ds_config):
     
-    config = utils.load_config()
-    df = utils.load_data(config[dataset]['input_file']['name'])
-
-    df = clean_data(df, dataset, config)
+    df = utils.load_data(ds_config)
+    df = clean_data(df, ds_config)
        
     if model =='SVC':
-        df = transform_target(df, dataset, config)
+        df = transform_target(df, ds_config)
 
-    df.to_csv(f"/workspaces/iod-demo-repo/artefacts/{dataset}.csv", index=False)
+    df.to_csv(f"/workspaces/iod-demo-repo/artefacts/{ds_config['name']}.csv", index=False)
 
 if __name__ == "__main__":
     
     parser = argparse.ArgumentParser(description="Train model with custom dataset and model")
-    
-    parser.add_argument("--dataset", required=True, help="dataset name")
     parser.add_argument("--model", required=True, help="model to train with")
+    parser.add_argument("--ds_config", required=True, help="dataset config")
     
     args = parser.parse_args()
-    
-    prepare(args.dataset, args.model)
+    prepare(args.model, args.ds_config)
     
     logger.debug('data preparation completed...')

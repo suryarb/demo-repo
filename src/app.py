@@ -15,11 +15,13 @@ if __name__ == "__main__":
     
     for dataset in config:
         
-        for model in config[dataset]['models']:
+        ds_config = config[dataset]
+        
+        for model in ds_config['models']:
             
             logger.debug(f'preparing {dataset} to train with {model}...')
             
-            prepare_data.prepare(dataset, model)
-            train.train_and_predict(dataset, model)
+            prepare_data.prepare(model, ds_config)
+            train.train_and_predict(model, ds_config)
     
             logger.debug(f'training complete...')

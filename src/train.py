@@ -18,16 +18,12 @@ logging.basicConfig(level=logging.DEBUG,
 
 logger = logging.getLogger(__name__)
 
-def train_and_predict(dataset, model_name):
+def train_and_predict(model_name, ds_config):
    
   logger.debug('loading prepared data for training...')
   
-  config = utils.load_config()
-  
-  # file_name = config[dataset]['input_file']['name']
-  df = pd.read_csv(f"/workspaces/iod-demo-repo/artefacts/{dataset}.csv")   
-      
-  X_train, X_test, y_train, y_test = utils.split_train_test_data(df, config)
+  df = pd.read_csv(f"/workspaces/iod-demo-repo/artefacts/{ds_config['name']}.csv")       
+  X_train, X_test, y_train, y_test = utils.split_train_test_data(df, ds_config)
   
   logger.debug('defining model...')
   if model_name == 'LogisticRegression':
@@ -42,20 +38,19 @@ def train_and_predict(dataset, model_name):
   model.fit(X_train, y_train)
   
   logger.debug('saving fitted model...')
-  joblib.dump(model, f'/workspaces/iod-demo-repo/models/{model_name}_{dataset}')
+  joblib.dump(model, f"/workspaces/iod-demo-repo/models/{model_name}_{ds_config['name']}")
   
   y_pred = model.predict(X_test)
   
   logger.debug(f'calculating accuracy...{accuracy_score(y_test, y_pred)}')
-  # print(accuracy_score(y_test, y_pred))
         
 if __name__ == "__main__":
   
   parser = argparse.ArgumentParser(description="Train model with custom dataset and model")
     
-  parser.add_argument("--dataset", required=True, help="dataset name")
   parser.add_argument("--model", required=True, help="model to train with")
+  parser.add_argument("--ds_config", required=True, help="dataset config")
   
   args = parser.parse_args()
   
-  train_and_predict(args.dataset, args.model)
+  train_and_predict(args.model, args.ds_config)

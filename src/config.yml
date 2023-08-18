@@ -2,6 +2,8 @@ breast_cancer_data:
   name: breast_cancer_data
   input_file:
     name: breast-cancer-wisconsin-data.csv
+    path: /workspaces/iod-demo-repo/data
+    id_col: id
     drop_cols:
       - 'Unnamed: 32'
     drop_nulls:
@@ -9,5 +11,5 @@ breast_cancer_data:
   target: diagnosis
   models:
     - LogisticRegression
-    - SVC
-    - GaussianNB
+    # - SVC
+    # - GaussianNB
