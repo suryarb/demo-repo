@@ -14,10 +14,10 @@ def clean_data(df, dataset, config):
     
     logger.debug('cleaning data...')
 
-    if config[dataset]['input_file']['drop_cols'] is not None:
+    if config.get(dataset, {}).get('input_file', {}).get('drop_cols') is not None:
         df.drop(columns=config[dataset]['input_file']['drop_cols'], inplace=True)
-        
-    if config[dataset]['input_file']['drop_nulls'] is not None:
+
+    if config.get(dataset, {}).get('input_file', {}).get('drop_nulls') is not None:
         df.dropna(subset=config[dataset]['input_file']['drop_nulls'], inplace=True)
 
     return df
