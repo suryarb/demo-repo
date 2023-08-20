@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 def apply_preprocessing(df, ds_config):
     
-    df = pd.read_csv(f"/workspaces/iod-demo-repo/artefacts/{ds_config['name']}.csv")
+    df = pd.read_csv(f"/workspaces/demo-repo/artefacts/{ds_config['name']}.csv")
    
     for col, transform_type in ds_config['transform'].items():
         
@@ -23,7 +23,7 @@ def apply_preprocessing(df, ds_config):
             scaler = MinMaxScaler()
             df[col] = np.log(df[col])
             
-    df.to_csv(f"/workspaces/iod-demo-repo/artefacts/{ds_config['name']}.csv", index=False)
+    df.to_csv(f"/workspaces/demo-repo/artefacts/{ds_config['name']}.csv", index=False)
 
 if __name__ == "__main__":
     

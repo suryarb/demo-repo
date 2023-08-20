@@ -44,7 +44,7 @@ def prepare(model, ds_config):
     if model =='SVC':
         df = transform_target(df, ds_config)
 
-    df.to_csv(f"/workspaces/iod-demo-repo/artefacts/{ds_config['name']}.csv", index=False)
+    df.to_csv(f"/workspaces/demo-repo/artefacts/{ds_config['name']}.csv", index=False)
 
 if __name__ == "__main__":
     

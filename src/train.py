@@ -1,7 +1,7 @@
 
 import pandas as pd
 import os
-os.chdir("/workspaces/iod-demo-repo/")
+os.chdir("/workspaces/demo-repo/")
 
 from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import GaussianNB
@@ -23,7 +23,7 @@ def train_and_predict(model_name, ds_config):
     
     logger.debug('loading prepared data for training...')
     
-    df = pd.read_csv(f"/workspaces/iod-demo-repo/artefacts/{ds_config['name']}.csv")       
+    df = pd.read_csv(f"/workspaces/demo-repo/artefacts/{ds_config['name']}.csv")       
     X_train, X_test, y_train, y_test = utils.split_train_test_data(df, ds_config)
     
     logger.debug(f'instantiating the {model_name} model...')
@@ -42,7 +42,7 @@ def train_and_predict(model_name, ds_config):
     model.fit(X_train, y_train)
     
     logger.debug(f'saving the fitted {model_name} model...')
-    joblib.dump(model, f"/workspaces/iod-demo-repo/models/{model_name}_{ds_config['name']}")
+    joblib.dump(model, f"/workspaces/demo-repo/models/{model_name}_{ds_config['name']}")
     
     y_pred = model.predict(X_test)
     

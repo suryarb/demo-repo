@@ -14,7 +14,7 @@ def load_config():
 
     logger.debug('loading config.yml...')
     
-    os.chdir(r'/workspaces/iod-demo-repo/src')
+    os.chdir(r'/workspaces/demo-repo/src')
     
     if os.path.exists("config.yml"):
         with open("config.yml", "r") as f:
