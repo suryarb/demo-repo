@@ -26,7 +26,14 @@ def load_config():
 def load_data(ds_config):
     
     logger.debug(f"loading dataset {ds_config['input_file']['name']}...")
-    df = pd.read_csv(f"{ds_config['input_file']['path']}/{ds_config['input_file']['name']}", index_col='id')
+
+    if ds_config.get('input_file', {}).get('id_col') is not None:
+        df = pd.read_csv(
+            f"{ds_config['input_file']['path']}/{ds_config['input_file']['name']}",
+            index_col=ds_config['input_file']['id_col']
+        )
+    else:
+        df = pd.read_csv(f"{ds_config['input_file']['path']}/{ds_config['input_file']['name']}")
 
     return df
 

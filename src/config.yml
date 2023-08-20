@@ -5,11 +5,27 @@ breast_cancer_data:
     path: /workspaces/iod-demo-repo/data
     id_col: id
     drop_cols:
-      - 'Unnamed: 32'
+      - 'unnamed: 32'
     drop_nulls:
       - diagnosis
   target: diagnosis
+  transform:
+    perimeter_mean: MinMaxScaler
+    area_mean: MinMaxScaler
   models:
     - LogisticRegression
-    # - SVC
-    # - GaussianNB
+    - RandomForestClassifier
+# diabetes:
+#   name: diabetes
+#   input_file:
+#     name: diabetes.csv
+#     path: /workspaces/iod-demo-repo/data
+#     drop_nulls:
+#       - outcome
+#   target: outcome
+#   transform:
+#     glucose: MinMaxScaler
+#     age: MinMaxScaler
+#   models:
+#     - LogisticRegression
+#     - RandomForestClassifier

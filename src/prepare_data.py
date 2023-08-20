@@ -11,12 +11,16 @@ logger = logging.getLogger(__name__)
 
 def clean_data(df, ds_config):
     
-    logger.debug('cleaning data...')
-
+    logger.debug('convert all column names to lowercase...')
+    
+    df.columns = df.columns.str.lower()
+    
     if ds_config.get('input_file', {}).get('drop_cols') is not None:
+        logger.debug(f"dropping columns {ds_config['input_file']['drop_cols']}...")
         df.drop(columns=ds_config['input_file']['drop_cols'], inplace=True)
 
     if ds_config.get('input_file', {}).get('drop_nulls') is not None:
+        logger.debug(f"dropping NaN from {ds_config['input_file']['drop_nulls']}...")
         df.dropna(subset=ds_config['input_file']['drop_nulls'], inplace=True)
 
     return df

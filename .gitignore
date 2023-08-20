@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 DATA/
 models/
+outputs/
 *.csv
 # C extensions
 *.so
