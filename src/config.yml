@@ -42,20 +42,18 @@ breast_cancer_data:
           - None
         random_state:
           - 42
-
-    # - SVC
-    # - RandomForestClassifier
-# diabetes:
-#   name: diabetes
-#   input_file:
-#     name: diabetes.csv
-#     path: /workspaces/demo-repo/data
-#     drop_nulls:
-#       - outcome
-#   target: outcome
-#   transform:
-#     glucose: MinMaxScaler
-#     age: MinMaxScaler
-#   models:
-#     - LogisticRegression
-#     - RandomForestClassifier
+    SVC: none
+diabetes:
+  name: diabetes
+  input_file:
+    name: diabetes.csv
+    path: /workspaces/demo-repo/data
+    drop_nulls:
+      - outcome
+  target: outcome
+  transform:
+    glucose: MinMaxScaler
+    age: MinMaxScaler
+  models:
+    LogisticRegression: none
+    RandomForestClassifier: none

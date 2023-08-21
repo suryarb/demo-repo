@@ -46,8 +46,10 @@ def train_and_predict(model_name, ds_config):
     
     df = pd.read_csv(f"/workspaces/demo-repo/artefacts/{ds_config['name']}.csv")
     model = create_model(model_name)
-
-    if 'cv' in ds_config['models'][model_name]:
+    
+    if ds_config['models'][model_name] is None:
+        model = create_model(model_name)
+    elif 'cv' in ds_config['models'][model_name]:
         if 'params' not in ds_config['models'][model_name]:
             best_params, _ = define_model(model_name, ds_config, df)
             model.set_params(**best_params)
