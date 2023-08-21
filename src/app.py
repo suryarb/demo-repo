@@ -2,6 +2,7 @@ import prepare_data
 import train
 import utils
 import preprocess
+import evaluate
 
 import logging
 import datetime
@@ -30,5 +31,8 @@ if __name__ == "__main__":
                 preprocess.apply_preprocessing(model, ds_config)
                 
             train.train_and_predict(model, ds_config)
+            
+        for model in ds_config['models']:
+            evaluate.evaluate(model, ds_config)
     
-            logger.debug(f'training complete...')
+        logger.debug(f'training and evaluation complete...')

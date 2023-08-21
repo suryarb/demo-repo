@@ -1,5 +1,5 @@
 breast_cancer_data:
-  name: breast_cancer_data
+  name: breast_cancer
   input_file:
     name: breast-cancer-wisconsin-data.csv
     path: /workspaces/demo-repo/data
@@ -11,10 +11,40 @@ breast_cancer_data:
   target: diagnosis
   transform:
     perimeter_mean: MinMaxScaler
-    area_mean: MinMaxScaler
+    area_mean: log
   models:
-    - LogisticRegression
-    - RandomForestClassifier
+    LogisticRegression:
+      params:
+        C: 0.01
+        class_weight: balanced
+        penalty: none
+        max_iter: 5000
+        random_state: 42
+        solver: lbfgs
+      cv:
+        penalty:
+          - l2
+          - none
+        C:
+          - 0.01
+          - 0.1
+          - 1
+          - 10
+        solver:
+          - liblinear
+          - lbfgs
+          - saga
+        max_iter:
+          - 5000
+          - 10000
+        class_weight:
+          - balanced
+          - None
+        random_state:
+          - 42
+
+    # - SVC
+    # - RandomForestClassifier
 # diabetes:
 #   name: diabetes
 #   input_file:
