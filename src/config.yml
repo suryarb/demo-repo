@@ -1,61 +1,60 @@
-breast_cancer_data:
-  name: breast_cancer
-  input_file:
-    name: breast-cancer-wisconsin-data.csv
-    path: /workspaces/demo-repo/data
-    id_col: id
-    drop_cols:
-      - 'unnamed: 32'
-    drop_nulls:
-      - diagnosis
-  target: diagnosis
-  # transform:
-  #   # add pca and if pca not in transform, perform column-wise transformation
-  #   perimeter_mean: MinMaxScaler
-  #   area_mean: MinMaxScaler
-  models:
-    LogisticRegression:
-      params:
-        C: 10
-        class_weight: balanced
-        penalty: l1
-        max_iter: 2000
-        random_state: 42
-        solver: liblinear
-      cv:
-        penalty:
-          - l2
-          - l1
-        C:
-          - 0.01
-          - 0.1
-          - 1
-          - 10
-        solver:
-          - liblinear
-          - lbfgs
-          - saga
-        max_iter:
-          - 2000
-          - 5000
-          - 10000
-        class_weight:
-          - balanced
-          - None
-        random_state:
-          - 42
-    SVC: none
-# diabetes:
-#   name: diabetes
+# breast_cancer_data:
+#   name: breast_cancer
 #   input_file:
-#     name: diabetes.csv
+#     name: breast-cancer-wisconsin-data.csv
 #     path: /workspaces/demo-repo/data
+#     id_col: id
+#     drop_cols:
+#       - 'unnamed: 32'
 #     drop_nulls:
-#       - outcome
-#   target: outcome
-#   transform:
-#     glucose: MinMaxScaler
-#     age: MinMaxScaler
+#       - diagnosis
+#   target: diagnosis
+#   # transform:
+#   #   perimeter_mean: MinMaxScaler
+#   #   area_mean: MinMaxScaler
 #   models:
-#     LogisticRegression: none
-#     RandomForestClassifier: none
+#     LogisticRegression:
+#       params:
+#         C: 10
+#         class_weight: balanced
+#         penalty: l1
+#         max_iter: 2000
+#         random_state: 42
+#         solver: liblinear
+#       cv:
+#         penalty:
+#           - l2
+#           - l1
+#         C:
+#           - 0.01
+#           - 0.1
+#           - 1
+#           - 10
+#         solver:
+#           - liblinear
+#           - lbfgs
+#           - saga
+#         max_iter:
+#           - 2000
+#           - 5000
+#           - 10000
+#         class_weight:
+#           - balanced
+#           - None
+#         random_state:
+#           - 42
+#     SVC: none
+diabetes:
+  name: diabetes
+  input_file:
+    name: diabetes.csv
+    path: /workspaces/demo-repo/data
+    drop_nulls:
+      - outcome
+  target: outcome
+  # transform:
+  #   glucose: MinMaxScaler
+  #   age: MinMaxScaler
+  models:
+    LogisticRegression: none
+    RandomForestClassifier: none
