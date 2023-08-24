@@ -1,5 +1,4 @@
 import pandas as pd
-import os
 from sklearn.model_selection import GridSearchCV
 from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import GaussianNB
@@ -8,7 +7,6 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 import prepare_data
 import argparse
-import joblib
 import logging
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -60,6 +58,10 @@ def train_and_predict(df, model_name, ds_config):
 
     model.fit(X_train, y_train)
     y_pred = model.predict(X_test)
+    
+    result_df = pd.concat([X_test, y_test, pd.Series(y_pred, name='y_pred')], axis=1)
+    result_df.to_csv(f"../outputs/{ds_config['name']}_results.csv", index=False)
+
     logger.debug(f"accuracy for {model}: {accuracy_score(y_test, y_pred)}")
         
 if __name__ == "__main__":

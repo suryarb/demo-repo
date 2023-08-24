@@ -52,24 +52,37 @@ diabetes:
     drop_nulls:
       - outcome
   target: outcome
-  # transform:
-  #   glucose: MinMaxScaler
-  #   age: MinMaxScaler
+  transform:
+    glucose: MinMaxScaler
+    age: log
   models:
-    LogisticRegression: none
-    RandomForestClassifier: none # use 7.1.2 to add more params and cv
-# transfusion:
-#   name: transfusion
-#   input_file:
-#     name: transfusion.csv
-#     path: /workspaces/demo-repo/data
-#     rename_cols:
-#     drop_nulls:
-#       - whether he/she donated blood in March 2007
-#   target: whether he/she donated blood in March 2007
-#   # transform:
-#   #   glucose: MinMaxScaler
-#   #   age: MinMaxScaler
-#   models:
-#     LogisticRegression: none
-#     RandomForestClassifier: none # use 7.1.2 to add more params and cv
+    LogisticRegression:
+      params:
+        C: 1
+        class_weight: balanced
+        penalty: l1
+        max_iter: 2000
+        random_state: 42
+        solver: liblinear
+      cv:
+        penalty:
+          - l2
+          - l1
+        C:
+          - 0.01
+          - 0.1
+          - 1
+          - 10
+        solver:
+          - liblinear
+          - lbfgs
+          - saga
+        max_iter:
+          - 2000
+          - 5000
+          - 10000
+        class_weight:
+          - balanced
+          - None
+        random_state:
+          - 42
