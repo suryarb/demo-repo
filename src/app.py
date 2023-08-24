@@ -36,3 +36,5 @@ if __name__ == "__main__":
             evaluate.evaluate(model, ds_config)
     
         logger.debug(f'training and evaluation complete...')
+        
+        # add pca option from lab 6.4

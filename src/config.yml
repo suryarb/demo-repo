@@ -11,20 +11,20 @@ breast_cancer_data:
   target: diagnosis
   transform:
     perimeter_mean: MinMaxScaler
-    area_mean: log
+    area_mean: MinMaxScaler
   models:
     LogisticRegression:
       params:
         C: 0.01
         class_weight: balanced
-        penalty: none
+        penalty: l1
         max_iter: 5000
         random_state: 42
-        solver: lbfgs
+        solver: liblinear
       cv:
         penalty:
           - l2
-          - none
+          - l1
         C:
           - 0.01
           - 0.1
@@ -42,18 +42,18 @@ breast_cancer_data:
           - None
         random_state:
           - 42
-    SVC: none
-diabetes:
-  name: diabetes
-  input_file:
-    name: diabetes.csv
-    path: /workspaces/demo-repo/data
-    drop_nulls:
-      - outcome
-  target: outcome
-  transform:
-    glucose: MinMaxScaler
-    age: MinMaxScaler
-  models:
-    LogisticRegression: none
-    RandomForestClassifier: none
+#     SVC: none
+# diabetes:
+#   name: diabetes
+#   input_file:
+#     name: diabetes.csv
+#     path: /workspaces/demo-repo/data
+#     drop_nulls:
+#       - outcome
+#   target: outcome
+#   transform:
+#     glucose: MinMaxScaler
+#     age: MinMaxScaler
+#   models:
+#     LogisticRegression: none
+#     RandomForestClassifier: none
