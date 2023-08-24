@@ -57,4 +57,4 @@ diabetes:
   #   age: MinMaxScaler
   models:
     LogisticRegression: none
-    RandomForestClassifier: none
+    RandomForestClassifier: none # use 7.1.2 to add more params and cv
