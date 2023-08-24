@@ -9,10 +9,10 @@ breast_cancer_data:
     drop_nulls:
       - diagnosis
   target: diagnosis
-  transform:
-    # add pca and if pca not in transform, perform column-wise transformation
-    # perimeter_mean: MinMaxScaler
-    # area_mean: MinMaxScaler
+  # transform:
+  #   # add pca and if pca not in transform, perform column-wise transformation
+  #   perimeter_mean: MinMaxScaler
+  #   area_mean: MinMaxScaler
   models:
     LogisticRegression:
       params:
@@ -44,7 +44,7 @@ breast_cancer_data:
           - None
         random_state:
           - 42
-#     SVC: none
+    SVC: none
 # diabetes:
 #   name: diabetes
 #   input_file:

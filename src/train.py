@@ -6,7 +6,7 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
-import utils
+import prepare_data
 import argparse
 import joblib
 import logging
@@ -56,14 +56,11 @@ def train_and_predict(df, model_name, ds_config):
             best_params = ds_config['models'][model_name]['params']
             model.set_params(**best_params)
 
-    X_train, X_test, y_train, y_test = utils.split_train_test_data(df, ds_config)
+    X_train, X_test, y_train, y_test = prepare_data.split_train_test_data(df, ds_config)
 
     model.fit(X_train, y_train)
-    
-    logger.debug(f'saving the fitted {model_name} model...')
-    joblib.dump(model, f"/workspaces/demo-repo/models/{model_name}_{ds_config['name']}.joblib")
-    
-    return X_test, y_test
+    y_pred = model.predict(X_test)
+    logger.debug(f"accuracy for {model}: {accuracy_score(y_test, y_pred)}")
         
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Train model with custom dataset and model")
