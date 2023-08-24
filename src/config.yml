@@ -10,15 +10,16 @@ breast_cancer_data:
       - diagnosis
   target: diagnosis
   transform:
-    perimeter_mean: MinMaxScaler
-    area_mean: MinMaxScaler
+    # add pca and if pca not in transform, perform column-wise transformation
+    # perimeter_mean: MinMaxScaler
+    # area_mean: MinMaxScaler
   models:
     LogisticRegression:
       params:
-        C: 0.01
+        C: 10
         class_weight: balanced
         penalty: l1
-        max_iter: 5000
+        max_iter: 2000
         random_state: 42
         solver: liblinear
       cv:
@@ -35,6 +36,7 @@ breast_cancer_data:
           - lbfgs
           - saga
         max_iter:
+          - 2000
           - 5000
           - 10000
         class_weight:

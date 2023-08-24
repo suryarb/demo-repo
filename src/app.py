@@ -24,16 +24,15 @@ if __name__ == "__main__":
         for model in ds_config['models']:
             
             logger.debug(f'preparing {dataset} dataset to train with {model}...')
-            
-            prepare_data.prepare(model, ds_config)
+            df = prepare_data.prepare(model, ds_config)
             
             if 'transform' in ds_config:
-                preprocess.apply_preprocessing(model, ds_config)
-                
-            train.train_and_predict(model, ds_config)
+                df = preprocess.apply_preprocessing(df, model, ds_config)
+
+            X_test, y_test = train.train_and_predict(df, model, ds_config)
             
         for model in ds_config['models']:
-            evaluate.evaluate(model, ds_config)
+            evaluate.evaluate(model, X_test, y_test, ds_config)
     
         logger.debug(f'training and evaluation complete...')
         

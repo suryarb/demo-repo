@@ -8,20 +8,21 @@ logging.basicConfig(level=logging.DEBUG,
 
 logger = logging.getLogger(__name__)
 
-def evaluate(model, ds_config):
+def evaluate(model, X_test, y_test, ds_config):
     
     logger.debug(f"loading saved {model} model...")
     saved_model = joblib.load(f"/workspaces/demo-repo/models/{model}_{ds_config['name']}.joblib")
     
-    X_test = pd.read_csv(f"/workspaces/demo-repo/artefacts/{model}_{ds_config['name']}_X_test.csv")
-    y_test = pd.read_csv(f"/workspaces/demo-repo/artefacts/{model}_{ds_config['name']}_y_test.csv")
+    # X_test = pd.read_csv(f"/workspaces/demo-repo/artefacts/{model}_{ds_config['name']}_X_test.csv")
+    # y_test = pd.read_csv(f"/workspaces/demo-repo/artefacts/{model}_{ds_config['name']}_y_test.csv")
     y_pred = saved_model.predict(X_test)
     
     # saved_model.get_params()
     
     # logger.debug(f"{model} prameters: {saved_model.get_params()}")
     logger.debug(f"accuracy for {model}: {accuracy_score(y_test, y_pred)}")
-
+    
+    # return model, X_test, y_test
 
 if __name__ == "__main__":
     

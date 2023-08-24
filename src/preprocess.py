@@ -9,10 +9,8 @@ logging.basicConfig(level=logging.DEBUG,
 
 logger = logging.getLogger(__name__)
 
-def apply_preprocessing(df, ds_config):
-    
-    df = pd.read_csv(f"/workspaces/demo-repo/artefacts/{ds_config['name']}.csv")
-   
+def apply_preprocessing(df, model, ds_config):
+      
     for col, transform_type in ds_config['transform'].items():
         
         logger.debug(f'performing {transform_type} transformation on {col}...')
@@ -24,12 +22,13 @@ def apply_preprocessing(df, ds_config):
         elif transform_type == 'log':
             scaler = MinMaxScaler()
             df[col] = np.log(df[col])
-            
-    df.to_csv(f"/workspaces/demo-repo/artefacts/{ds_config['name']}.csv", index=False)
+    
+    return df
 
 if __name__ == "__main__":
     
     parser = argparse.ArgumentParser(description="Preprocessing")
+    parser.add_argument("--df", required=True, help="data")
     parser.add_argument("--model", required=True, help="model to train with")
     parser.add_argument("--ds_config", required=True, help="dataset config")
     args = parser.parse_args()

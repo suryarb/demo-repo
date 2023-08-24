@@ -41,10 +41,9 @@ def define_model(model_name, ds_config, df):
     
     return grid_search.best_params_, grid_search.best_score_
 
-def train_and_predict(model_name, ds_config):
+def train_and_predict(df, model_name, ds_config):
     logger.debug('loading prepared data for training...')
-    
-    df = pd.read_csv(f"/workspaces/demo-repo/artefacts/{ds_config['name']}.csv")
+
     model = create_model(model_name)
     
     if ds_config['models'][model_name] is None:
@@ -58,17 +57,17 @@ def train_and_predict(model_name, ds_config):
             model.set_params(**best_params)
 
     X_train, X_test, y_train, y_test = utils.split_train_test_data(df, ds_config)
-    
-    X_test.to_csv(f"/workspaces/demo-repo/artefacts/{model_name}_{ds_config['name']}_X_test.csv", index=False)
-    y_test.to_csv(f"/workspaces/demo-repo/artefacts/{model_name}_{ds_config['name']}_y_test.csv", index=False)
 
     model.fit(X_train, y_train)
     
     logger.debug(f'saving the fitted {model_name} model...')
     joblib.dump(model, f"/workspaces/demo-repo/models/{model_name}_{ds_config['name']}.joblib")
+    
+    return X_test, y_test
         
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Train model with custom dataset and model")
+    parser.add_argument("--df", required=True, help="data")
     parser.add_argument("--model", required=True, help="model to train with")
     parser.add_argument("--ds_config", required=True, help="dataset config")
     args = parser.parse_args()
