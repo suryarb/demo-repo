@@ -56,6 +56,8 @@ def clean_data(df, ds_config):
     
     df.columns = df.columns.str.lower()
     
+    df.columns = df.columns.str.replace('[\.\s\[\]\(\)]', '_', regex=True)
+    
     if ds_config.get('input_file', {}).get('drop_cols') is not None:
         logger.debug(f"dropping columns {ds_config['input_file']['drop_cols']}...")
         df.drop(columns=ds_config['input_file']['drop_cols'], inplace=True)
