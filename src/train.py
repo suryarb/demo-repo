@@ -34,9 +34,6 @@ def define_model(model_name, ds_config, df):
     y = df[target_col]
     grid_search.fit(X, y)
     
-    # print("Best Parameters:", grid_search.best_params_)
-    # print("Best Score:", grid_search.best_score_)
-    
     return grid_search.best_params_, grid_search.best_score_
 
 def train_and_predict(df, model_name, ds_config):
