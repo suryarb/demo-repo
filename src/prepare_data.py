@@ -52,16 +52,27 @@ def split_train_test_data(df, ds_config):
 
 def clean_data(df, ds_config):
     
+    # convert all columns to lower case
     logger.debug('convert all column names to lowercase...')
-    
     df.columns = df.columns.str.lower()
+    
+    # rename columns
+    if ds_config.get('input_file', {}).get('rename_cols') is not None:    
+        rename_mapping = ds_config['input_file']['rename_cols']
+        
+        for old_name, new_name in rename_mapping.items():
+            if old_name in df.columns:
+                logger.debug(f'renaming column {old_name} to {new_name}...')
+                df.rename(columns={old_name: new_name}, inplace=True)
     
     df.columns = df.columns.str.replace('[\.\s\[\]\(\)]', '_', regex=True)
     
+    # drop columns
     if ds_config.get('input_file', {}).get('drop_cols') is not None:
         logger.debug(f"dropping columns {ds_config['input_file']['drop_cols']}...")
         df.drop(columns=ds_config['input_file']['drop_cols'], inplace=True)
 
+    # drop nulls
     if ds_config.get('input_file', {}).get('drop_nulls') is not None:
         logger.debug(f"dropping NaN from {ds_config['input_file']['drop_nulls']}...")
         df.dropna(subset=ds_config['input_file']['drop_nulls'], inplace=True)
