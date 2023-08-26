@@ -34,8 +34,8 @@ def define_model(model_name, ds_config, df):
     y = df[target_col]
     grid_search.fit(X, y)
     
-    print("Best Parameters:", grid_search.best_params_)
-    print("Best Score:", grid_search.best_score_)
+    # print("Best Parameters:", grid_search.best_params_)
+    # print("Best Score:", grid_search.best_score_)
     
     return grid_search.best_params_, grid_search.best_score_
 
@@ -48,8 +48,11 @@ def train_and_predict(df, model_name, ds_config):
         model = create_model(model_name)
     elif 'cv' in ds_config['models'][model_name]:
         if 'params' not in ds_config['models'][model_name]:
+            
+            logger.debug('performing cross validation...')
             best_params, _ = define_model(model_name, ds_config, df)
             model.set_params(**best_params)
+            logger.debug(f'best params {best_params}...')
         else:
             best_params = ds_config['models'][model_name]['params']
             model.set_params(**best_params)
@@ -63,7 +66,7 @@ def train_and_predict(df, model_name, ds_config):
     result_df.to_csv(f"../outputs/{ds_config['name']}_results.csv", index=False)
 
     logger.debug(f"accuracy for {model}: {accuracy_score(y_test, y_pred)}")
-        
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Train model with custom dataset and model")
     parser.add_argument("--df", required=True, help="data")

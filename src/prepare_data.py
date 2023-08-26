@@ -17,6 +17,7 @@ def load_config():
     
     os.chdir(r'/workspaces/demo-repo/src')
     
+    # read config
     if os.path.exists("config.yml"):
         with open("config.yml", "r") as f:
             config = yaml.safe_load(f)
@@ -28,6 +29,7 @@ def load_data(ds_config):
     
     logger.debug(f"loading dataset {ds_config['input_file']['name']}...")
 
+    # read data
     if ds_config.get('input_file', {}).get('id_col') is not None:
         df = pd.read_csv(
             f"{ds_config['input_file']['path']}/{ds_config['input_file']['name']}",
