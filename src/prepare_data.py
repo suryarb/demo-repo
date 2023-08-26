@@ -68,7 +68,7 @@ def clean_data(df, ds_config):
                 df.rename(columns={old_name: new_name}, inplace=True)
     
     df.columns = df.columns.str.replace('[\.\s\[\]\(\)]', '_', regex=True)
-    
+
     # drop columns
     if ds_config.get('input_file', {}).get('drop_cols') is not None:
         logger.debug(f"dropping columns {ds_config['input_file']['drop_cols']}...")

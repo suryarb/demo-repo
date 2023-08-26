@@ -9,9 +9,9 @@ breast_cancer_data:
     drop_nulls:
       - diagnosis
   target: diagnosis
-  transform:
-    perimeter_mean: MinMaxScaler
-    area_mean: log
+  # transform:
+  #   perimeter_mean: MinMaxScaler
+  #   area_mean: log
   models:
     LogisticRegression:
       params:
@@ -114,6 +114,7 @@ diabetes:
           - None
         random_state:
           - 42
+  SVC: none
 transfusion:
   name: transfusion
   input_file:
@@ -121,7 +122,7 @@ transfusion:
     path: /workspaces/demo-repo/data
     rename_cols:
       "recency (months)": recency
-      "frequency (times)": recency
+      "frequency (times)": frequency
       "monetary (c.c. blood)": monetary
       "time (months)": time
       "whether he/she donated blood in march 2007": donated_mar_2007

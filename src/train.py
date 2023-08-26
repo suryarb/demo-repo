@@ -4,6 +4,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import GaussianNB
 from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.tree import DecisionTreeClassifier # add RandomizedSearchCV
 from sklearn.metrics import accuracy_score
 import prepare_data
 import argparse
@@ -21,12 +22,14 @@ def create_model(model_name):
         return GaussianNB()
     elif model_name == 'RandomForestClassifier':
         return RandomForestClassifier()
+    elif model_name == 'DecisionTreeClassifier':
+        return DecisionTreeClassifier()
     else:
         raise ValueError(f"Unknown model: {model_name}")
 
 def define_model(model_name, ds_config, df):
     
-    grid_search = GridSearchCV(create_model(model_name), ds_config['models'][model_name]['cv'], cv=5)
+    grid_search = GridSearchCV(create_model(model_name), ds_config['models'][model_name]['cv'], cv=5) # add scoring option
     target_col = ds_config['target']
     feature_cols = [c for c in df.columns if c != target_col]
     
@@ -37,7 +40,7 @@ def define_model(model_name, ds_config, df):
     return grid_search.best_params_, grid_search.best_score_
 
 def train_and_predict(df, model_name, ds_config):
-    logger.debug('loading prepared data for training...')
+    logger.debug('preparing for training...')
 
     model = create_model(model_name)
     
